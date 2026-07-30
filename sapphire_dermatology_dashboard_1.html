@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sapphire Dermatology — Business Performance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1"></script>
+<style>
+
+:root{
+  --ink:#122349;
+  --ink-2:#1c3266;
+  --sapphire:#2E58D8;
+  --sapphire-soft:#e8edfb;
+  --sapphire-mid:#c3d0f5;
+  --clay:#e3805a;
+  --clay-soft:#fbe9e1;
+  --canvas:#f5f7fc;
+  --card:#ffffff;
+  --slate:#5c6a89;
+  --slate-light:#8b96b3;
+  --line:#e7eaf3;
+  --pos:#1f8a5f;
+  --neg:#c0453b;
+  --radius:16px;
+  --radius-sm:10px;
+  --shadow: 0 1px 2px rgba(18,35,73,0.04), 0 8px 24px rgba(18,35,73,0.06);
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--canvas);
+  color:var(--ink);
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--slate);
+}
+
+/* ================= HERO ================= */
+.hero{
+  position:relative;
+  background:linear-gradient(155deg,var(--ink) 0%, var(--ink-2) 55%, #24408a 100%);
+  color:#fff;
+  overflow:hidden;
+  padding:28px 40px 26px;
+}
+.facet-layer{
+  position:absolute; inset:0; z-index:0; opacity:0.5;
+  pointer-events:none;
+}
+.hero-inner{ position:relative; z-index:1; max-width:1320px; margin:0 auto; }
+.hero-top{
+  display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px;
+  margin-bottom:22px;
+}
+.brand{ display:flex; align-items:center; gap:14px; }
+.brand-mark{ width:38px; height:38px; flex-shrink:0; }
+.brand-text h1{
+  font-family:'Fraunces',serif; font-weight:600; font-size:26px; letter-spacing:0.01em;
+  margin:0; line-height:1.1;
+}
+.brand-text .sub{
+  font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#aebdec;
+  letter-spacing:0.08em; text-transform:uppercase; margin-top:4px;
+}
+.updated{
+  font-family:'IBM Plex Mono',monospace; font-size:12px; color:#c6d0f2;
+  text-align:right;
+}
+.updated .dot{ color:#6fe3a8; }
+
+.tabs{
+  display:flex; gap:6px; background:rgba(255,255,255,0.08); padding:5px;
+  border-radius:12px; width:fit-content; border:1px solid rgba(255,255,255,0.12);
+}
+.tab-btn{
+  font-family:'Inter',sans-serif; font-weight:600; font-size:13.5px;
+  color:#c6d0f2; background:transparent; border:none; padding:9px 18px;
+  border-radius:8px; cursor:pointer; transition:all .18s ease;
+  letter-spacing:0.01em;
+}
+.tab-btn:hover{ color:#fff; }
+.tab-btn.active{ background:#fff; color:var(--ink); box-shadow:0 4px 10px rgba(0,0,0,0.18); }
+
+.hero-strip{
+  display:flex; gap:34px; margin-top:24px; flex-wrap:wrap;
+}
+.strip-item{ min-width:120px; }
+.strip-item .lbl{ font-size:11px; color:#9fb0e0; text-transform:uppercase; letter-spacing:0.08em; font-family:'IBM Plex Mono',monospace;}
+.strip-item .val{ font-family:'Fraunces',serif; font-size:25px; font-weight:600; margin-top:3px; }
+.strip-item .chg{ font-size:12px; font-weight:600; margin-top:2px; font-family:'IBM Plex Mono',monospace;}
+.chg.pos{ color:#7be8ae; } .chg.neg{ color:#ff9d8f; }
+
+/* ================= LAYOUT ================= */
+.wrap{ max-width:1320px; margin:0 auto; padding:30px 40px 60px; }
+.section-head{ display:flex; align-items:baseline; justify-content:space-between; margin:38px 0 16px; }
+.section-head:first-of-type{ margin-top:6px; }
+.section-head h2{
+  font-family:'Fraunces',serif; font-weight:600; font-size:19px; margin:0; color:var(--ink);
+  display:flex; align-items:center; gap:10px;
+}
+.section-head h2 .num{ color:var(--sapphire); font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:500;}
+.section-head p{ margin:0; font-size:12.5px; color:var(--slate-light); font-family:'IBM Plex Mono',monospace;}
+
+/* ================= KPI CARDS ================= */
+.kpi-row{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+.kpi-card{
+  background:var(--card); border-radius:var(--radius); padding:20px 20px 18px;
+  box-shadow:var(--shadow); border:1px solid var(--line); position:relative; overflow:hidden;
+}
+.kpi-card .facet-corner{ position:absolute; top:0; right:0; width:46px; height:46px; opacity:0.9; }
+.kpi-label{ font-family:'IBM Plex Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--slate); }
+.kpi-value{ font-family:'Fraunces',serif; font-size:34px; font-weight:600; color:var(--ink); margin:6px 0 8px; line-height:1;}
+.kpi-foot{ display:flex; align-items:center; gap:8px; font-size:12.5px; }
+.pill{ padding:2px 8px; border-radius:20px; font-weight:700; font-size:12px; font-family:'IBM Plex Mono',monospace;}
+.pill.pos{ background:#e7f6ee; color:var(--pos);}
+.pill.neg{ background:#fbeceb; color:var(--neg);}
+.kpi-sub{ color:var(--slate-light); }
+.kpi-week{ margin-top:10px; padding-top:10px; border-top:1px dashed var(--line); display:flex; justify-content:space-between; font-size:12px; color:var(--slate);}
+.kpi-week b{ color:var(--ink); font-family:'IBM Plex Mono',monospace; font-weight:600;}
+
+/* ================= CHART GRID ================= */
+.grid-2{ display:grid; grid-template-columns:1.6fr 1fr; gap:16px; align-items:stretch; }
+.grid-3{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.card{
+  background:var(--card); border-radius:var(--radius); padding:22px 24px;
+  box-shadow:var(--shadow); border:1px solid var(--line);
+}
+.card h3{ font-family:'Inter',sans-serif; font-weight:700; font-size:14px; margin:0 0 2px; color:var(--ink); }
+.card .card-sub{ font-size:12px; color:var(--slate-light); margin-bottom:14px; font-family:'IBM Plex Mono',monospace;}
+.chart-box{ position:relative; height:270px; }
+.chart-box.short{ height:220px; }
+
+/* legend chips */
+.legend-row{ display:flex; gap:16px; margin-top:12px; flex-wrap:wrap; }
+.legend-chip{ display:flex; align-items:center; gap:6px; font-size:12px; color:var(--slate); }
+.legend-chip .sw{ width:10px; height:10px; border-radius:3px; display:inline-block; }
+
+/* donut center label */
+.donut-wrap{ position:relative; }
+.donut-center{ position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; }
+.donut-center .big{ font-family:'Fraunces',serif; font-size:26px; font-weight:600; color:var(--ink); }
+.donut-center .small{ font-size:11px; color:var(--slate-light); font-family:'IBM Plex Mono',monospace; text-transform:uppercase; }
+
+/* stat rows (call performance / providers) */
+.stat-list{ display:flex; flex-direction:column; gap:14px; margin-top:6px;}
+.stat-row{ display:flex; align-items:center; justify-content:space-between; }
+.stat-row .name{ font-size:13px; color:var(--ink); font-weight:600; display:flex; align-items:center; gap:8px;}
+.stat-row .name .sw{ width:9px; height:9px; border-radius:50%; }
+.stat-row .num{ font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--slate); }
+.bar-track{ height:8px; border-radius:6px; background:var(--sapphire-soft); overflow:hidden; margin-top:6px;}
+.bar-fill{ height:100%; border-radius:6px; }
+
+.big-stat-row{ display:flex; gap:22px; margin-top:4px; margin-bottom:10px; }
+.big-stat{ flex:1; }
+.big-stat .v{ font-family:'Fraunces',serif; font-size:28px; font-weight:600; }
+.big-stat .l{ font-size:11px; color:var(--slate-light); text-transform:uppercase; letter-spacing:0.06em; font-family:'IBM Plex Mono',monospace; margin-top:2px;}
+
+/* marketing */
+.ads-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.ads-card{ border-radius:var(--radius-sm); border:1px solid var(--line); padding:16px 18px; }
+.ads-card.meta{ background:linear-gradient(180deg,#fff, var(--sapphire-soft) 220%); }
+.ads-card.google{ background:linear-gradient(180deg,#fff, var(--clay-soft) 220%); }
+.ads-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;}
+.ads-head .tag{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; padding:3px 8px; border-radius:6px; font-weight:600; letter-spacing:0.04em;}
+.ads-head .tag.meta{ background:#dbe4fb; color:var(--sapphire); }
+.ads-head .tag.google{ background:#fbe1d4; color:var(--clay); }
+.ads-head h4{ margin:0; font-size:15px; font-family:'Fraunces',serif; font-weight:600; }
+.ads-metric-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.ads-metric{ }
+.ads-metric .v{ font-family:'IBM Plex Mono',monospace; font-size:16px; font-weight:600; color:var(--ink); }
+.ads-metric .l{ font-size:10.5px; color:var(--slate-light); text-transform:uppercase; letter-spacing:0.04em; margin-top:2px;}
+.ads-empty{ font-size:12px; color:var(--slate-light); font-style:italic; padding:8px 0; }
+
+.note{ font-size:11.5px; color:var(--slate-light); margin-top:14px; font-family:'IBM Plex Mono',monospace; }
+
+/* footer */
+.footer{
+  border-top:1px solid var(--line); margin-top:40px; padding-top:20px;
+  display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
+  font-size:12px; color:var(--slate-light); font-family:'IBM Plex Mono',monospace;
+}
+
+@media (max-width: 980px){
+  .kpi-row{ grid-template-columns:repeat(2,1fr); }
+  .grid-2{ grid-template-columns:1fr; }
+  .grid-3{ grid-template-columns:1fr; }
+  .ads-grid{ grid-template-columns:1fr; }
+  .hero{ padding:22px 20px; }
+  .wrap{ padding:24px 20px 50px; }
+  .hero-strip{ gap:20px; }
+}
+@media print{
+  .tabs{ display:none; }
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <svg class="facet-layer" viewBox="0 0 1320 260" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="fg1" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#ffffff" stop-opacity="0.10"/>
+        <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    <polygon points="900,-20 1100,10 1180,90 1080,180 950,140 880,60" fill="url(#fg1)"/>
+    <polygon points="1080,180 1180,90 1320,140 1320,260 1150,260" fill="#ffffff" fill-opacity="0.05"/>
+    <polygon points="950,140 1080,180 1150,260 980,260 900,200" fill="#ffffff" fill-opacity="0.04"/>
+    <polygon points="1180,90 1320,140 1320,20 1230,-10" fill="#ffffff" fill-opacity="0.07"/>
+    <polygon points="60,240 180,180 260,230 200,300 90,300" fill="#ffffff" fill-opacity="0.035"/>
+  </svg>
+  <div class="hero-inner">
+    <div class="hero-top">
+      <div class="brand">
+        <svg class="brand-mark" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="20,2 30,12 26,20 14,20 10,12" fill="#4d78e8"/>
+          <polygon points="10,12 14,20 8,26 3,16" fill="#2E58D8"/>
+          <polygon points="30,12 37,16 32,26 26,20" fill="#3a63d8"/>
+          <polygon points="14,20 26,20 32,26 20,38 8,26" fill="#6f92ef"/>
+          <polygon points="20,2 30,12 26,20 14,20 10,12" fill="#ffffff" fill-opacity="0.18"/>
+        </svg>
+        <div class="brand-text">
+          <h1>Sapphire Dermatology</h1>
+          <div class="sub">Business Performance Dashboard</div>
+        </div>
+      </div>
+      <div class="updated">last update <span class="dot">●</span> Jul 28, 2026</div>
+    </div>
+
+    <div class="tabs" id="tabs">
+      <button class="tab-btn active" data-loc="consolidated">Consolidated</button>
+      <button class="tab-btn" data-loc="reston">Reston, VA</button>
+      <button class="tab-btn" data-loc="silverspring">Silver Spring, MD</button>
+    </div>
+
+    <div class="hero-strip" id="heroStrip"></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="section-head">
+    <h2><span class="num">01</span> Patient Volume</h2>
+    <p>Last 30 &amp; 7 days · vs prior period</p>
+  </div>
+  <div class="kpi-row" id="kpiRow"></div>
+
+  <div class="section-head">
+    <h2><span class="num">02</span> Growth Trend</h2>
+    <p>12-month rolling · Aug '25 – Jul '26</p>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <h3>Monthly Patient Volume</h3>
+      <div class="card-sub">New vs. returning patients seen per month</div>
+      <div class="chart-box"><canvas id="chartMonthly"></canvas></div>
+    </div>
+    <div class="card">
+      <h3>Patient Mix</h3>
+      <div class="card-sub">Share of visits, last 30 days</div>
+      <div class="chart-box donut-wrap">
+        <canvas id="chartPatientMix"></canvas>
+        <div class="donut-center"><div class="big" id="mixBig">–</div><div class="small">New Patients</div></div>
+      </div>
+      <div class="legend-row" id="mixLegend"></div>
+    </div>
+  </div>
+
+  <div class="section-head">
+    <h2><span class="num">03</span> Recent Momentum &amp; Call Handling</h2>
+    <p>Last 12 weeks · phone performance, last 30 days</p>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <h3>Weekly Appointments</h3>
+      <div class="card-sub">Booked appointments, most recent 12 weeks</div>
+      <div class="chart-box"><canvas id="chartWeekly"></canvas></div>
+    </div>
+    <div class="card">
+      <h3>Call Performance</h3>
+      <div class="card-sub">Front-desk phone volume, last 30 days</div>
+      <div class="big-stat-row">
+        <div class="big-stat"><div class="v" id="callAnswerRate">–</div><div class="l">Answer Rate</div></div>
+        <div class="big-stat"><div class="v" id="callTotal">–</div><div class="l">Total Calls</div></div>
+      </div>
+      <div class="stat-list">
+        <div>
+          <div class="stat-row"><div class="name"><span class="sw" style="background:var(--sapphire)"></span>Answered</div><div class="num" id="callAnsweredNum">–</div></div>
+          <div class="bar-track"><div class="bar-fill" id="callAnsweredBar" style="background:var(--sapphire)"></div></div>
+        </div>
+        <div>
+          <div class="stat-row"><div class="name"><span class="sw" style="background:var(--clay)"></span>Abandoned</div><div class="num" id="callAbandonedNum">–</div></div>
+          <div class="bar-track"><div class="bar-fill" id="callAbandonedBar" style="background:var(--clay)"></div></div>
+        </div>
+      </div>
+      <div class="note" id="callNote"></div>
+    </div>
+  </div>
+
+  <div class="section-head">
+    <h2><span class="num">04</span> Care Mix &amp; Providers</h2>
+    <p>Visit type breakdown and provider volume, last 30 days</p>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <h3>Appointment Type</h3>
+      <div class="card-sub">General, cosmetic &amp; medical dermatology visits</div>
+      <div class="chart-box short"><canvas id="chartApptType"></canvas></div>
+      <div class="legend-row" id="apptLegend"></div>
+    </div>
+    <div class="card">
+      <h3>Provider Volume</h3>
+      <div class="card-sub">Patients seen per provider</div>
+      <div class="chart-box short"><canvas id="chartProviders"></canvas></div>
+    </div>
+  </div>
+
+  <div class="section-head">
+    <h2><span class="num">05</span> Marketing Performance</h2>
+    <p>Paid acquisition · Meta &amp; Google Ads, last 30 days</p>
+  </div>
+  <div class="card">
+    <div class="ads-grid">
+      <div class="ads-card meta">
+        <div class="ads-head"><h4>Meta Ads</h4><span class="tag meta">FACEBOOK / IG</span></div>
+        <div class="ads-metric-grid" id="metaMetrics"></div>
+      </div>
+      <div class="ads-card google">
+        <div class="ads-head"><h4>Google Ads</h4><span class="tag google">SEARCH</span></div>
+        <div class="ads-metric-grid" id="googleMetrics"></div>
+      </div>
+    </div>
+    <div class="chart-box short" style="margin-top:20px;"><canvas id="chartAds"></canvas></div>
+  </div>
+
+  <div class="footer">
+    <span>Source: Sapphire Dermatology practice data export · Reston, VA &amp; Silver Spring, MD</span>
+    <span>Snapshot generated Jul 28, 2026</span>
+  </div>
+
+</div>
+
+<script>
+const DATA = {"consolidated": {"label": "Consolidated", "kpis": {"contacts": {"v30": 2464, "mom": -0.07963655799, "yoyMonth": 0, "v7": 711, "wow": 0.1713344316, "yoyWeek": 2.338028169}, "appointments": {"v30": 2389, "mom": -0.1159499183, "yoyMonth": 0, "v7": 711, "wow": 0.3646833013, "yoyWeek": 1.890243902}, "newPatient": {"v30": 779, "mom": -0.06763285024, "yoyMonth": 0, "v7": 206, "wow": 0.01477832512, "yoyWeek": 1.675324675}, "returning": {"v30": 1685, "mom": -0.0856, "yoyMonth": 0, "v7": 505, "wow": 0.25, "yoyWeek": 2.713235294}}, "patientShare": {"new30": 0.3161525974, "ret30": 0.6838474026, "new7": 0.2897327707, "ret7": 0.7102672293}, "calls": {"total": {"v30": 1106, "mom": -0.07073170732, "yoyMonth": 0, "v7": 268, "wow": -0.1464968153, "yoyWeek": 2.884057971}, "answered": {"v30": 1046, "mom": -0.1111111111, "yoyMonth": 0, "v7": 259, "wow": -0.1508196721, "yoyWeek": 2.808823529}, "abandoned": {"v30": 60, "mom": 1.071428571, "yoyMonth": 0, "v7": 9, "wow": 0, "yoyWeek": 8}}, "appointmentType": {"general": {"v30": 804, "mom": -0.09242424242, "yoyMonth": 0, "v7": 218, "wow": 0.04807692308, "yoyWeek": 1.626506024}, "cosmetic": {"v30": 48, "mom": 1.2, "yoyMonth": 0, "v7": 14, "wow": -0.3636363636, "yoyWeek": 2.5}, "medical": {"v30": 1612, "mom": -0.08326394671, "yoyMonth": 0, "v7": 479, "wow": 0.2705570292, "yoyWeek": 2.801587302}}, "providers": {"kunal": {"v30": 1410, "mom": -0.08176100629, "yoyMonth": 0, "v7": 396, "wow": 0.09695290859, "yoyWeek": 1.55483871}, "divya": {"v30": 1054, "mom": -0.0765171504, "yoyMonth": 0, "v7": 315, "wow": 0.2804878049, "yoyWeek": 4.431034483}}, "metaAds": {"adspend": {"v30": 1746.82, "mom": -0.006257476765, "yoyMonth": 0, "v7": 201.7, "wow": -0.02376458061, "yoyWeek": 12.73978202}, "conversions": {"v30": 24, "mom": 2, "yoyMonth": 0, "v7": 4, "wow": -0.2, "yoyWeek": 0}, "cpa": {"v30": 72.78416667, "mom": -0.6687524923, "yoyMonth": 0, "v7": 50.425, "wow": 0.2202942742, "yoyWeek": 2.434945504}, "cpm": {"v30": 21.98917422, "mom": -0.2804278075, "yoyMonth": 0, "v7": 17.9336712, "wow": 0.03274197741, "yoyWeek": 0.7090739789}, "cpc": {"v30": 2.712453416, "mom": -0.215466429, "yoyMonth": 0, "v7": 4.482222222, "wow": 0.258258985, "yoyWeek": 0.221313957}}, "googleAds": {"adspend": {"v30": 3482.66, "mom": -0.08058275127, "yoyMonth": 0, "v7": 941.87, "wow": 0.2464038535, "yoyWeek": 1.043279243}, "conversions": {"v30": 146.99, "mom": -0.176094806, "yoyMonth": 0, "v7": 43, "wow": 0.1028468838, "yoyWeek": 1.263157895}, "cpa": {"v30": 23.69317641, "mom": 0.1159260258, "yoyMonth": 0, "v7": 21.90395349, "wow": 0.1301694477, "yoyWeek": -0.09715568318}, "cpm": {"v30": 96.79702048, "mom": -0.2321924087, "yoyMonth": 0, "v7": 112.0073731, "wow": 0.1838539158, "yoyWeek": -0.01760280881}, "cpc": {"v30": 2.457769936, "mom": -0.1847631436, "yoyMonth": 0, "v7": 2.531908602, "wow": -0.07859930182, "yoyWeek": -0.005823809031}}, "monthly": [{"Month": "Aug", "From": "2025-07-21 00:00:00", "To": "2025-08-20 00:00:00", "Booking": 1183, "Appointment": 1158, "NewPatient": 355, "Returning": 828, "LTV": 0.0, "NewShare": 0.3000845309, "RetShare": 0.6999154691, "Kunal": 852, "Divya": 331, "General": 406, "Cosmetic": 23, "Medical": 754, "AnsweredCall": 551, "AbandonedCall": 9, "TotalCall": 560, "GAdSpend": 1939.51, "GImpr": 14069, "GClicks": 699, "GCalls": 61, "GCTR": 0.04968370176, "GCPM": 137.8569905, "GCPC": 2.774692418, "GCPA": 31.7952459, "MAdSpend": 774.48, "MImpr": 34409, "MClicks": 279, "MConv": 4, "MCTR": 0.008108343747, "MCPM": 22.50806475, "MCPC": 2.775913978, "MCPA": 193.62, "label": "Aug '25"}, {"Month": "Sep", "From": "2025-08-21 00:00:00", "To": "2025-09-20 00:00:00", "Booking": 1296, "Appointment": 1304, "NewPatient": 438, "Returning": 858, "LTV": 0.0, "NewShare": 0.337962963, "RetShare": 0.662037037, "Kunal": 881, "Divya": 415, "General": 487, "Cosmetic": 14, "Medical": 795, "AnsweredCall": 323, "AbandonedCall": 8, "TotalCall": 331, "GAdSpend": 1913.7, "GImpr": 6871, "GClicks": 431, "GCalls": 87, "GCTR": 0.06272740504, "GCPM": 278.5184107, "GCPC": 4.440139211, "GCPA": 21.99655172, "MAdSpend": 216.31, "MImpr": 11237, "MClicks": 78, "MConv": 2, "MCTR": 0.006941354454, "MCPM": 19.24979977, "MCPC": 2.773205128, "MCPA": 108.155, "label": "Sep '25"}, {"Month": "Oct", "From": "2025-09-21 00:00:00", "To": "2025-10-21 00:00:00", "Booking": 1865, "Appointment": 1794, "NewPatient": 544, "Returning": 1321, "LTV": 0.0, "NewShare": 0.291689008, "RetShare": 0.708310992, "Kunal": 1228, "Divya": 637, "General": 594, "Cosmetic": 13, "Medical": 1258, "AnsweredCall": 380, "AbandonedCall": 13, "TotalCall": 393, "GAdSpend": 2926.31, "GImpr": 14540, "GClicks": 715, "GCalls": 104, "GCTR": 0.04917469051, "GCPM": 201.2592847, "GCPC": 4.092741259, "GCPA": 28.13759615, "MAdSpend": 216.88, "MImpr": 12777, "MClicks": 80, "MConv": 5, "MCTR": 0.006261250685, "MCPM": 16.97425061, "MCPC": 2.711, "MCPA": 43.376, "label": "Oct '25"}, {"Month": "Nov", "From": "2025-10-22 00:00:00", "To": "2025-11-21 00:00:00", "Booking": 1988, "Appointment": 2081, "NewPatient": 694, "Returning": 1294, "LTV": 0.0, "NewShare": 0.3490945674, "RetShare": 0.6509054326, "Kunal": 1229, "Divya": 759, "General": 712, "Cosmetic": 29, "Medical": 1247, "AnsweredCall": 453, "AbandonedCall": 9, "TotalCall": 462, "GAdSpend": 3115.54, "GImpr": 15196, "GClicks": 804, "GCalls": 148, "GCTR": 0.05290866017, "GCPM": 205.0236904, "GCPC": 3.875049751, "GCPA": 21.05094595, "MAdSpend": 215.36, "MImpr": 10686, "MClicks": 123, "MConv": 3, "MCTR": 0.01151038742, "MCPM": 20.15347183, "MCPC": 1.750894309, "MCPA": 71.78666667, "label": "Nov '25"}, {"Month": "Dec", "From": "2025-11-22 00:00:00", "To": "2025-12-22 00:00:00", "Booking": 1871, "Appointment": 1837, "NewPatient": 621, "Returning": 1250, "LTV": 0.0, "NewShare": 0.3319080706, "RetShare": 0.6680919294, "Kunal": 1113, "Divya": 758, "General": 660, "Cosmetic": 10, "Medical": 1201, "AnsweredCall": 396, "AbandonedCall": 14, "TotalCall": 410, "GAdSpend": 3036.63, "GImpr": 13532, "GClicks": 806, "GCalls": 108.01, "GCTR": 0.05956251847, "GCPM": 224.4036358, "GCPC": 3.767531017, "GCPA": 28.11434126, "MAdSpend": 217.34, "MImpr": 6480, "MClicks": 90, "MConv": 2, "MCTR": 0.01388888889, "MCPM": 33.54012346, "MCPC": 2.414888889, "MCPA": 108.67, "label": "Dec '25"}, {"Month": "Jan", "From": "2025-12-23 00:00:00", "To": "2026-01-22 00:00:00", "Booking": 1722, "Appointment": 1624, "NewPatient": 579, "Returning": 1143, "LTV": 0.0, "NewShare": 0.3362369338, "RetShare": 0.6637630662, "Kunal": 1022, "Divya": 700, "General": 599, "Cosmetic": 22, "Medical": 1101, "AnsweredCall": 352, "AbandonedCall": 29, "TotalCall": 381, "GAdSpend": 2791.93, "GImpr": 16204, "GClicks": 909, "GCalls": 88.99, "GCTR": 0.05609725994, "GCPM": 172.2988151, "GCPC": 3.071430143, "GCPA": 31.37352512, "MAdSpend": 215.98, "MImpr": 8949, "MClicks": 114, "MConv": 6, "MCTR": 0.0127388535, "MCPM": 24.13454017, "MCPC": 1.894561404, "MCPA": 35.99666667, "label": "Jan '26"}, {"Month": "Feb", "From": "2026-01-23 00:00:00", "To": "2026-02-22 00:00:00", "Booking": 1985, "Appointment": 1971, "NewPatient": 608, "Returning": 1377, "LTV": 0.0, "NewShare": 0.3062972292, "RetShare": 0.6937027708, "Kunal": 1246, "Divya": 739, "General": 646, "Cosmetic": 32, "Medical": 1307, "AnsweredCall": 357, "AbandonedCall": 12, "TotalCall": 369, "GAdSpend": 3134.27, "GImpr": 15119, "GClicks": 896, "GCalls": 144.03, "GCTR": 0.05926317878, "GCPM": 207.3067002, "GCPC": 3.498069196, "GCPA": 21.7612303, "MAdSpend": 215.17, "MImpr": 8294, "MClicks": 129, "MConv": 4, "MCTR": 0.01555341211, "MCPM": 25.94285025, "MCPC": 1.667984496, "MCPA": 53.7925, "label": "Feb '26"}, {"Month": "Mar", "From": "2026-02-23 00:00:00", "To": "2026-03-25 00:00:00", "Booking": 2171, "Appointment": 2191, "NewPatient": 596, "Returning": 1575, "LTV": 0.0, "NewShare": 0.2745278673, "RetShare": 0.7254721327, "Kunal": 1386, "Divya": 785, "General": 621, "Cosmetic": 30, "Medical": 1520, "AnsweredCall": 406, "AbandonedCall": 8, "TotalCall": 414, "GAdSpend": 3229.11, "GImpr": 16643, "GClicks": 825, "GCalls": 122.97, "GCTR": 0.04957038995, "GCPM": 194.0221114, "GCPC": 3.914072727, "GCPA": 26.25933154, "MAdSpend": 217.69, "MImpr": 8961, "MClicks": 111, "MConv": 6, "MCTR": 0.01238701038, "MCPM": 24.29304765, "MCPC": 1.961171171, "MCPA": 36.28166667, "label": "Mar '26"}, {"Month": "Apr", "From": "2026-03-26 00:00:00", "To": "2026-04-25 00:00:00", "Booking": 2230, "Appointment": 2188, "NewPatient": 670, "Returning": 1560, "LTV": 0.0, "NewShare": 0.3004484305, "RetShare": 0.6995515695, "Kunal": 1408, "Divya": 822, "General": 705, "Cosmetic": 35, "Medical": 1490, "AnsweredCall": 509, "AbandonedCall": 25, "TotalCall": 534, "GAdSpend": 6667.53, "GImpr": 82030, "GClicks": 4200, "GCalls": 549, "GCTR": 0.0512007802, "GCPM": 81.28160429, "GCPC": 1.587507143, "GCPA": 12.14486339, "MAdSpend": 161.37, "MImpr": 5590, "MClicks": 77, "MConv": 1, "MCTR": 0.0137745975, "MCPM": 28.86762075, "MCPC": 2.095714286, "MCPA": 161.37, "label": "Apr '26"}, {"Month": "May", "From": "2026-04-26 00:00:00", "To": "2026-05-26 00:00:00", "Booking": 2349, "Appointment": 2282, "NewPatient": 743, "Returning": 1606, "LTV": 0.0, "NewShare": 0.3163048106, "RetShare": 0.6836951894, "Kunal": 1332, "Divya": 1017, "General": 778, "Cosmetic": 26, "Medical": 1545, "AnsweredCall": 524, "AbandonedCall": 12, "TotalCall": 536, "GAdSpend": 2005.45, "GImpr": 36738, "GClicks": 730, "GCalls": 124, "GCTR": 0.01987043388, "GCPM": 54.58789265, "GCPC": 2.747191781, "GCPA": 16.17298387, "MAdSpend": 0, "MImpr": 0, "MClicks": 0, "MConv": 0, "MCTR": 0, "MCPM": 0, "MCPC": 0, "MCPA": 0, "label": "May '26"}, {"Month": "Jun", "From": "2026-05-27 00:00:00", "To": "2026-06-26 00:00:00", "Booking": 2522, "Appointment": 2541, "NewPatient": 810, "Returning": 1712, "LTV": 0.0, "NewShare": 0.3211736717, "RetShare": 0.6788263283, "Kunal": 1516, "Divya": 1006, "General": 829, "Cosmetic": 34, "Medical": 1659, "AnsweredCall": 579, "AbandonedCall": 26, "TotalCall": 605, "GAdSpend": 2006.49, "GImpr": 38449, "GClicks": 875, "GCalls": 154, "GCTR": 0.02275741892, "GCPM": 52.18575256, "GCPC": 2.293131429, "GCPA": 13.02915584, "MAdSpend": 149.45, "MImpr": 3287, "MClicks": 102, "MConv": 0, "MCTR": 0.03103133556, "MCPM": 45.46699118, "MCPC": 1.465196078, "MCPA": 149.45, "label": "Jun '26"}, {"Month": "Jul", "From": "2026-06-27 00:00:00", "To": "2026-07-27 00:00:00", "Booking": 2464, "Appointment": 2389, "NewPatient": 779, "Returning": 1685, "LTV": 0.0, "NewShare": 0.3161525974, "RetShare": 0.6838474026, "Kunal": 1410, "Divya": 1054, "General": 804, "Cosmetic": 48, "Medical": 1612, "AnsweredCall": 1046, "AbandonedCall": 60, "TotalCall": 1106, "GAdSpend": 3482.66, "GImpr": 35979, "GClicks": 1417, "GCalls": 146.99, "GCTR": 0.03938408516, "GCPM": 96.79702048, "GCPC": 2.457769936, "GCPA": 23.69317641, "MAdSpend": 1746.82, "MImpr": 79440, "MClicks": 644, "MConv": 24, "MCTR": 0.008106747231, "MCPM": 21.98917422, "MCPC": 2.712453416, "MCPA": 72.78416667, "label": "Jul '26"}], "weekly": [{"week": "W-8", "to": "02/16", "booking": 449, "appointment": 551, "newPatient": 141, "returning": 308, "label": "02/16"}, {"week": "W-9", "to": "02/23", "booking": 405, "appointment": 347, "newPatient": 122, "returning": 283, "label": "02/23"}, {"week": "W-10", "to": "03/02", "booking": 501, "appointment": 463, "newPatient": 138, "returning": 363, "label": "03/02"}, {"week": "W-11", "to": "03/09", "booking": 518, "appointment": 475, "newPatient": 126, "returning": 392, "label": "03/09"}, {"week": "W-12", "to": "03/16", "booking": 456, "appointment": 551, "newPatient": 120, "returning": 336, "label": "03/16"}, {"week": "W-13", "to": "03/23", "booking": 466, "appointment": 442, "newPatient": 144, "returning": 322, "label": "03/23"}, {"week": "W-14", "to": "03/30", "booking": 438, "appointment": 419, "newPatient": 116, "returning": 322, "label": "03/30"}, {"week": "W-15", "to": "04/06", "booking": 496, "appointment": 485, "newPatient": 134, "returning": 362, "label": "04/06"}, {"week": "W-16", "to": "04/13", "booking": 522, "appointment": 517, "newPatient": 159, "returning": 363, "label": "04/13"}, {"week": "W-17", "to": "04/20", "booking": 502, "appointment": 516, "newPatient": 172, "returning": 330, "label": "04/20"}, {"week": "W-18", "to": "04/27", "booking": 540, "appointment": 547, "newPatient": 171, "returning": 369, "label": "04/27"}, {"week": "W-19", "to": "05/04", "booking": 531, "appointment": 484, "newPatient": 167, "returning": 364, "label": "05/04"}, {"week": "W-20", "to": "05/11", "booking": 486, "appointment": 585, "newPatient": 157, "returning": 329, "label": "05/11"}, {"week": "W-21", "to": "05/18", "booking": 591, "appointment": 385, "newPatient": 185, "returning": 406, "label": "05/18"}, {"week": "W-22", "to": "05/25", "booking": 514, "appointment": 582, "newPatient": 168, "returning": 346, "label": "05/25"}, {"week": "W-23", "to": "06/01", "booking": 575, "appointment": 629, "newPatient": 178, "returning": 397, "label": "06/01"}, {"week": "W-24", "to": "06/08", "booking": 513, "appointment": 559, "newPatient": 164, "returning": 349, "label": "06/08"}, {"week": "W-25", "to": "06/15", "booking": 544, "appointment": 462, "newPatient": 169, "returning": 375, "label": "06/15"}, {"week": "W-26", "to": "06/22", "booking": 570, "appointment": 577, "newPatient": 187, "returning": 383, "label": "06/22"}, {"week": "W-27", "to": "06/29", "booking": 552, "appointment": 590, "newPatient": 182, "returning": 370, "label": "06/29"}, {"week": "W-28", "to": "07/06", "booking": 533, "appointment": 469, "newPatient": 152, "returning": 381, "label": "07/06"}, {"week": "W-29", "to": "07/13", "booking": 502, "appointment": 574, "newPatient": 179, "returning": 323, "label": "07/13"}, {"week": "W-30", "to": "07/20", "booking": 607, "appointment": 521, "newPatient": 203, "returning": 404, "label": "07/20"}, {"week": "W-31", "to": "07/27", "booking": 711, "appointment": 711, "newPatient": 206, "returning": 505, "label": "07/27"}]}, "reston": {"label": "Reston, VA", "kpis": {"contacts": {"v30": 1669, "mom": -0.1312649165, "yoyMonth": 0, "v7": 453, "wow": 0.1212871287, "yoyWeek": 2.145833333}, "appointments": {"v30": 1645, "mom": -0.2026194145, "yoyMonth": 0, "v7": 444, "wow": 0.2231404959, "yoyWeek": 1.566473988}, "newPatient": {"v30": 535, "mom": -0.213362069, "yoyMonth": 0, "v7": 130, "wow": -0.02255639098, "yoyWeek": 1.549019608}, "returning": {"v30": 1134, "mom": -0.08322824716, "yoyMonth": 0, "v7": 323, "wow": 0.1918819188, "yoyWeek": 2.47311828}}, "patientShare": {"new30": 0.3205512283, "ret30": 0.6794487717, "new7": 0.2869757174, "ret7": 0.7130242826}, "calls": {"total": {"v30": 646, "mom": -0.07073170732, "yoyMonth": 0, "v7": 167, "wow": 0.04375, "yoyWeek": 2.976190476}, "answered": {"v30": 609, "mom": -0.1111111111, "yoyMonth": 0, "v7": 160, "wow": 0.03896103896, "yoyWeek": 2.902439024}, "abandoned": {"v30": 37, "mom": 1.071428571, "yoyMonth": 0, "v7": 7, "wow": 0.1666666667, "yoyWeek": 6}}, "appointmentType": {"general": {"v30": 560, "mom": -0.2345924453, "yoyMonth": 0, "v7": 142, "wow": 0.02898550725, "yoyWeek": 1.49122807}, "cosmetic": {"v30": 34, "mom": 1.111111111, "yoyMonth": 0, "v7": 5, "wow": -0.7058823529, "yoyWeek": 0.25}, "medical": {"v30": 1075, "mom": -0.07651006711, "yoyMonth": 0, "v7": 306, "wow": 0.2289156627, "yoyWeek": 2.686746988}}, "providers": {"kunal": {"v30": 775, "mom": -0.09268292683, "yoyMonth": 0, "v7": 205, "wow": -0.07239819005, "yoyWeek": 1.38372093}, "divya": {"v30": 894, "mom": -0.1682242991, "yoyMonth": 0, "v7": 248, "wow": 0.3551912568, "yoyWeek": 3.275862069}}, "metaAds": {"adspend": {"v30": 1126.69, "mom": -0.006257476765, "yoyMonth": 0, "v7": 201.7, "wow": 0.05464052288, "yoyWeek": 12.73978202}, "conversions": {"v30": 16, "mom": 2, "yoyMonth": 0, "v7": 4, "wow": -0.2, "yoyWeek": 0}, "cpa": {"v30": 70.418125, "mom": -0.6687524923, "yoyMonth": 0, "v7": 50.425, "wow": 0.3183006536, "yoyWeek": 2.434945504}, "cpm": {"v30": 21.6704493, "mom": -0.2804278075, "yoyMonth": 0, "v7": 17.9336712, "wow": 0.02360237821, "yoyWeek": 0.7090739789}, "cpc": {"v30": 2.980661376, "mom": -0.215466429, "yoyMonth": 0, "v7": 4.482222222, "wow": 0.2890050835, "yoyWeek": 0.221313957}}, "googleAds": {"adspend": {"v30": 3482.66, "mom": -0.05842690289, "yoyMonth": 0, "v7": 941.87, "wow": 0.2464038535, "yoyWeek": 1.443305922}, "conversions": {"v30": 146.99, "mom": 0.02857142857, "yoyMonth": 0, "v7": 43, "wow": 0.1028468838, "yoyWeek": 3.3}, "cpa": {"v30": 23.69317641, "mom": -0.08458171115, "yoyMonth": 0, "v7": 21.90395349, "wow": 0.1301694477, "yoyWeek": -0.4317893204}, "cpm": {"v30": 96.79702048, "mom": -0.22242934, "yoyMonth": 0, "v7": 112.0073731, "wow": 0.1838539158, "yoyWeek": 0.1276573058}, "cpc": {"v30": 2.457769936, "mom": -0.2244583539, "yoyMonth": 0, "v7": 2.531908602, "wow": -0.07859930182, "yoyWeek": -0.06734021244}}, "monthly": [{"Month": "Aug", "From": "2025-07-21 00:00:00", "To": "2025-08-20 00:00:00", "Booking": 820, "Appointment": 841, "NewPatient": 238, "Returning": 582, "LTV": 0.0, "NewShare": 0.2902439024, "RetShare": 0.7097560976, "Kunal": 494, "Divya": 326, "General": 289, "Cosmetic": 20, "Medical": 511, "AnsweredCall": 477, "AbandonedCall": 9, "TotalCall": 486, "GAdSpend": 1273.37, "GImpr": 11354, "GClicks": 438, "GCalls": 23, "GCTR": 0.03857671305, "GCPM": 112.1516646, "GCPC": 2.907237443, "GCPA": 55.36391304, "MAdSpend": 774.48, "MImpr": 34409, "MClicks": 279, "MConv": 4, "MCTR": 0.008108343747, "MCPM": 22.50806475, "MCPC": 2.775913978, "MCPA": 193.62, "label": "Aug '25"}, {"Month": "Sep", "From": "2025-08-21 00:00:00", "To": "2025-09-20 00:00:00", "Booking": 770, "Appointment": 767, "NewPatient": 252, "Returning": 518, "LTV": 0.0, "NewShare": 0.3272727273, "RetShare": 0.6727272727, "Kunal": 368, "Divya": 402, "General": 297, "Cosmetic": 9, "Medical": 464, "AnsweredCall": 323, "AbandonedCall": 7, "TotalCall": 330, "GAdSpend": 1083.13, "GImpr": 6059, "GClicks": 288, "GCalls": 27, "GCTR": 0.04753259614, "GCPM": 178.7638224, "GCPC": 3.760868056, "GCPA": 40.11592593, "MAdSpend": 216.31, "MImpr": 11237, "MClicks": 78, "MConv": 2, "MCTR": 0.006941354454, "MCPM": 19.24979977, "MCPC": 2.773205128, "MCPA": 108.155, "label": "Sep '25"}, {"Month": "Oct", "From": "2025-09-21 00:00:00", "To": "2025-10-21 00:00:00", "Booking": 1118, "Appointment": 1095, "NewPatient": 323, "Returning": 795, "LTV": 0.0, "NewShare": 0.2889087657, "RetShare": 0.7110912343, "Kunal": 497, "Divya": 621, "General": 373, "Cosmetic": 8, "Medical": 737, "AnsweredCall": 380, "AbandonedCall": 13, "TotalCall": 393, "GAdSpend": 1064.18, "GImpr": 9323, "GClicks": 372, "GCalls": 49, "GCTR": 0.03990131932, "GCPM": 114.1456613, "GCPC": 2.860698925, "GCPA": 21.71795918, "MAdSpend": 216.88, "MImpr": 12777, "MClicks": 80, "MConv": 5, "MCTR": 0.006261250685, "MCPM": 16.97425061, "MCPC": 2.711, "MCPA": 43.376, "label": "Oct '25"}, {"Month": "Nov", "From": "2025-10-22 00:00:00", "To": "2025-11-21 00:00:00", "Booking": 1204, "Appointment": 1190, "NewPatient": 415, "Returning": 789, "LTV": 0.0, "NewShare": 0.3446843854, "RetShare": 0.6553156146, "Kunal": 580, "Divya": 624, "General": 433, "Cosmetic": 23, "Medical": 748, "AnsweredCall": 453, "AbandonedCall": 9, "TotalCall": 462, "GAdSpend": 1057.78, "GImpr": 8457, "GClicks": 336, "GCalls": 53, "GCTR": 0.03973040085, "GCPM": 125.0774506, "GCPC": 3.148154762, "GCPA": 19.95811321, "MAdSpend": 215.36, "MImpr": 10686, "MClicks": 123, "MConv": 3, "MCTR": 0.01151038742, "MCPM": 20.15347183, "MCPC": 1.750894309, "MCPA": 71.78666667, "label": "Nov '25"}, {"Month": "Dec", "From": "2025-11-22 00:00:00", "To": "2025-12-22 00:00:00", "Booking": 1257, "Appointment": 1298, "NewPatient": 464, "Returning": 793, "LTV": 0.0, "NewShare": 0.369132856, "RetShare": 0.630867144, "Kunal": 615, "Divya": 642, "General": 503, "Cosmetic": 9, "Medical": 745, "AnsweredCall": 396, "AbandonedCall": 14, "TotalCall": 410, "GAdSpend": 1417.84, "GImpr": 7420, "GClicks": 355, "GCalls": 35, "GCTR": 0.04784366577, "GCPM": 191.083558, "GCPC": 3.993915493, "GCPA": 40.50971429, "MAdSpend": 217.34, "MImpr": 6480, "MClicks": 90, "MConv": 2, "MCTR": 0.01388888889, "MCPM": 33.54012346, "MCPC": 2.414888889, "MCPA": 108.67, "label": "Dec '25"}, {"Month": "Jan", "From": "2025-12-23 00:00:00", "To": "2026-01-22 00:00:00", "Booking": 1092, "Appointment": 1035, "NewPatient": 365, "Returning": 727, "LTV": 0.0, "NewShare": 0.3342490842, "RetShare": 0.6657509158, "Kunal": 558, "Divya": 534, "General": 385, "Cosmetic": 19, "Medical": 688, "AnsweredCall": 352, "AbandonedCall": 29, "TotalCall": 381, "GAdSpend": 1335, "GImpr": 8985, "GClicks": 431, "GCalls": 36, "GCTR": 0.04796883695, "GCPM": 148.5809683, "GCPC": 3.097447796, "GCPA": 37.08333333, "MAdSpend": 215.98, "MImpr": 8949, "MClicks": 114, "MConv": 6, "MCTR": 0.0127388535, "MCPM": 24.13454017, "MCPC": 1.894561404, "MCPA": 35.99666667, "label": "Jan '26"}, {"Month": "Feb", "From": "2026-01-23 00:00:00", "To": "2026-02-22 00:00:00", "Booking": 1126, "Appointment": 1133, "NewPatient": 278, "Returning": 848, "LTV": 0.0, "NewShare": 0.2468916519, "RetShare": 0.7531083481, "Kunal": 597, "Divya": 529, "General": 312, "Cosmetic": 25, "Medical": 789, "AnsweredCall": 357, "AbandonedCall": 12, "TotalCall": 369, "GAdSpend": 1392.58, "GImpr": 8394, "GClicks": 400, "GCalls": 28.92, "GCTR": 0.04765308554, "GCPM": 165.9018346, "GCPC": 3.48145, "GCPA": 48.15283541, "MAdSpend": 215.17, "MImpr": 8294, "MClicks": 129, "MConv": 4, "MCTR": 0.01555341211, "MCPM": 25.94285025, "MCPC": 1.667984496, "MCPA": 53.7925, "label": "Feb '26"}, {"Month": "Mar", "From": "2026-02-23 00:00:00", "To": "2026-03-25 00:00:00", "Booking": 1268, "Appointment": 1284, "NewPatient": 332, "Returning": 936, "LTV": 0.0, "NewShare": 0.261829653, "RetShare": 0.738170347, "Kunal": 630, "Divya": 638, "General": 354, "Cosmetic": 21, "Medical": 893, "AnsweredCall": 406, "AbandonedCall": 7, "TotalCall": 413, "GAdSpend": 1643.06, "GImpr": 9874, "GClicks": 413, "GCalls": 32.5, "GCTR": 0.04182702046, "GCPM": 166.4026737, "GCPC": 3.978353511, "GCPA": 50.55569231, "MAdSpend": 217.69, "MImpr": 8961, "MClicks": 111, "MConv": 6, "MCTR": 0.01238701038, "MCPM": 24.29304765, "MCPC": 1.961171171, "MCPA": 36.28166667, "label": "Mar '26"}, {"Month": "Apr", "From": "2026-03-26 00:00:00", "To": "2026-04-25 00:00:00", "Booking": 1278, "Appointment": 1230, "NewPatient": 359, "Returning": 919, "LTV": 0.0, "NewShare": 0.2809076682, "RetShare": 0.7190923318, "Kunal": 644, "Divya": 634, "General": 391, "Cosmetic": 28, "Medical": 859, "AnsweredCall": 508, "AbandonedCall": 25, "TotalCall": 533, "GAdSpend": 5960.7, "GImpr": 79072, "GClicks": 4023, "GCalls": 518, "GCTR": 0.0508776811, "GCPM": 75.38319506, "GCPC": 1.481655481, "GCPA": 11.50714286, "MAdSpend": 161.37, "MImpr": 5590, "MClicks": 77, "MConv": 1, "MCTR": 0.0137745975, "MCPM": 28.86762075, "MCPC": 2.095714286, "MCPA": 161.37, "label": "Apr '26"}, {"Month": "May", "From": "2026-04-26 00:00:00", "To": "2026-05-26 00:00:00", "Booking": 1516, "Appointment": 1478, "NewPatient": 482, "Returning": 1034, "LTV": 0.0, "NewShare": 0.3179419525, "RetShare": 0.6820580475, "Kunal": 721, "Divya": 795, "General": 517, "Cosmetic": 16, "Medical": 983, "AnsweredCall": 524, "AbandonedCall": 12, "TotalCall": 536, "GAdSpend": 1989.12, "GImpr": 36486, "GClicks": 724, "GCalls": 124, "GCTR": 0.01984322754, "GCPM": 54.51734912, "GCPC": 2.747403315, "GCPA": 16.04129032, "MAdSpend": 0, "MImpr": 0, "MClicks": 0, "MConv": 0, "MCTR": 0, "MCPM": 0, "MCPC": 0, "MCPA": 0, "label": "May '26"}, {"Month": "Jun", "From": "2026-05-27 00:00:00", "To": "2026-06-26 00:00:00", "Booking": 1580, "Appointment": 1562, "NewPatient": 491, "Returning": 1089, "LTV": 0.0, "NewShare": 0.3107594937, "RetShare": 0.6892405063, "Kunal": 768, "Divya": 812, "General": 510, "Cosmetic": 18, "Medical": 1052, "AnsweredCall": 561, "AbandonedCall": 26, "TotalCall": 587, "GAdSpend": 2006.49, "GImpr": 38449, "GClicks": 875, "GCalls": 154, "GCTR": 0.02275741892, "GCPM": 52.18575256, "GCPC": 2.293131429, "GCPA": 13.02915584, "MAdSpend": 69.32, "MImpr": 1399, "MClicks": 43, "MConv": 0, "MCTR": 0.03073624017, "MCPM": 49.54967834, "MCPC": 1.612093023, "MCPA": 69.32, "label": "Jun '26"}, {"Month": "Jul", "From": "2026-06-27 00:00:00", "To": "2026-07-27 00:00:00", "Booking": 1669, "Appointment": 1645, "NewPatient": 535, "Returning": 1134, "LTV": 0.0, "NewShare": 0.3205512283, "RetShare": 0.6794487717, "Kunal": 775, "Divya": 894, "General": 560, "Cosmetic": 34, "Medical": 1075, "AnsweredCall": 609, "AbandonedCall": 37, "TotalCall": 646, "GAdSpend": 3482.66, "GImpr": 35979, "GClicks": 1417, "GCalls": 146.99, "GCTR": 0.03938408516, "GCPM": 96.79702048, "GCPC": 2.457769936, "GCPA": 23.69317641, "MAdSpend": 1126.69, "MImpr": 51992, "MClicks": 378, "MConv": 16, "MCTR": 0.007270349285, "MCPM": 21.6704493, "MCPC": 2.980661376, "MCPA": 70.418125, "label": "Jul '26"}], "weekly": [{"week": "W-8", "to": "02/16", "booking": 264, "appointment": 313, "newPatient": 58, "returning": 206, "label": "02/16"}, {"week": "W-9", "to": "02/23", "booking": 224, "appointment": 209, "newPatient": 61, "returning": 163, "label": "02/23"}, {"week": "W-10", "to": "03/02", "booking": 313, "appointment": 254, "newPatient": 82, "returning": 231, "label": "03/02"}, {"week": "W-11", "to": "03/09", "booking": 291, "appointment": 306, "newPatient": 69, "returning": 222, "label": "03/09"}, {"week": "W-12", "to": "03/16", "booking": 266, "appointment": 297, "newPatient": 69, "returning": 197, "label": "03/16"}, {"week": "W-13", "to": "03/23", "booking": 267, "appointment": 274, "newPatient": 82, "returning": 185, "label": "03/23"}, {"week": "W-14", "to": "03/30", "booking": 258, "appointment": 226, "newPatient": 52, "returning": 206, "label": "03/30"}, {"week": "W-15", "to": "04/06", "booking": 297, "appointment": 309, "newPatient": 78, "returning": 219, "label": "04/06"}, {"week": "W-16", "to": "04/13", "booking": 287, "appointment": 276, "newPatient": 78, "returning": 209, "label": "04/13"}, {"week": "W-17", "to": "04/20", "booking": 285, "appointment": 289, "newPatient": 97, "returning": 188, "label": "04/20"}, {"week": "W-18", "to": "04/27", "booking": 317, "appointment": 319, "newPatient": 96, "returning": 221, "label": "04/27"}, {"week": "W-19", "to": "05/04", "booking": 368, "appointment": 299, "newPatient": 121, "returning": 247, "label": "05/04"}, {"week": "W-20", "to": "05/11", "booking": 356, "appointment": 379, "newPatient": 118, "returning": 238, "label": "05/11"}, {"week": "W-21", "to": "05/18", "booking": 351, "appointment": 316, "newPatient": 109, "returning": 242, "label": "05/18"}, {"week": "W-22", "to": "05/25", "booking": 306, "appointment": 332, "newPatient": 94, "returning": 212, "label": "05/25"}, {"week": "W-23", "to": "06/01", "booking": 356, "appointment": 391, "newPatient": 101, "returning": 255, "label": "06/01"}, {"week": "W-24", "to": "06/08", "booking": 339, "appointment": 341, "newPatient": 100, "returning": 239, "label": "06/08"}, {"week": "W-25", "to": "06/15", "booking": 341, "appointment": 305, "newPatient": 105, "returning": 236, "label": "06/15"}, {"week": "W-26", "to": "06/22", "booking": 344, "appointment": 344, "newPatient": 114, "returning": 230, "label": "06/22"}, {"week": "W-27", "to": "06/29", "booking": 353, "appointment": 363, "newPatient": 120, "returning": 233, "label": "06/29"}, {"week": "W-28", "to": "07/06", "booking": 360, "appointment": 308, "newPatient": 109, "returning": 251, "label": "07/06"}, {"week": "W-29", "to": "07/13", "booking": 356, "appointment": 416, "newPatient": 130, "returning": 226, "label": "07/13"}, {"week": "W-30", "to": "07/20", "booking": 404, "appointment": 363, "newPatient": 133, "returning": 271, "label": "07/20"}, {"week": "W-31", "to": "07/27", "booking": 453, "appointment": 444, "newPatient": 130, "returning": 323, "label": "07/27"}]}, "silverspring": {"label": "Silver Spring, MD", "kpis": {"contacts": {"v30": 795, "mom": 0.2700348432, "yoyMonth": 0, "v7": 258, "wow": 0.2709359606, "yoyWeek": 2.739130435}, "appointments": {"v30": 744, "mom": -0.05617977528, "yoyMonth": 0, "v7": 267, "wow": 0.6898734177, "yoyWeek": 2.657534247}, "newPatient": {"v30": 244, "mom": 0.6470588235, "yoyMonth": 0, "v7": 76, "wow": 0.08571428571, "yoyWeek": 1.923076923}, "returning": {"v30": 551, "mom": 0.1330166271, "yoyMonth": 0, "v7": 182, "wow": 0.3684210526, "yoyWeek": 3.23255814}}, "patientShare": {"new30": 0.306918239, "ret30": 0.693081761, "new7": 0.2945736434, "ret7": 0.7054263566}, "calls": {"total": {"v30": 460, "mom": 0, "yoyMonth": 0, "v7": 101, "wow": -0.3441558442, "yoyWeek": 2.740740741}, "answered": {"v30": 437, "mom": 0, "yoyMonth": 0, "v7": 99, "wow": -0.3443708609, "yoyWeek": 2.666666667}, "abandoned": {"v30": 23, "mom": 0, "yoyMonth": 0, "v7": 2, "wow": -0.3333333333, "yoyWeek": 0}}, "appointmentType": {"general": {"v30": 244, "mom": 0.6470588235, "yoyMonth": 0, "v7": 76, "wow": 0.08571428571, "yoyWeek": 1.923076923}, "cosmetic": {"v30": 14, "mom": 5, "yoyMonth": 0, "v7": 9, "wow": 0.8, "yoyWeek": 0}, "medical": {"v30": 537, "mom": 0.1214285714, "yoyMonth": 0, "v7": 173, "wow": 0.3515625, "yoyWeek": 3.023255814}}, "providers": {"kunal": {"v30": 635, "mom": 0.2568181818, "yoyMonth": 0, "v7": 191, "wow": 0.3642857143, "yoyWeek": 1.768115942}, "divya": {"v30": 160, "mom": 0.3134328358, "yoyMonth": 0, "v7": 67, "wow": 0.06349206349, "yoyWeek": 0}}, "metaAds": {"adspend": {"v30": 585.13, "mom": 0, "yoyMonth": 0, "v7": 0, "wow": -1, "yoyWeek": 0}, "conversions": {"v30": 8, "mom": 0, "yoyMonth": 0, "v7": 0, "wow": 0, "yoyWeek": 0}, "cpa": {"v30": 73.14125, "mom": 0, "yoyMonth": 0, "v7": 0, "wow": -1, "yoyWeek": 0}, "cpm": {"v30": 22.411046, "mom": 0, "yoyMonth": 0, "v7": 0, "wow": -1, "yoyWeek": 0}, "cpc": {"v30": 2.854292683, "mom": 0, "yoyMonth": 0, "v7": 0, "wow": -1, "yoyWeek": 0}}, "googleAds": {"adspend": {"v30": 0, "mom": 0.1427886581, "yoyMonth": 0, "v7": 0, "wow": 0, "yoyWeek": -1}, "conversions": {"v30": 0, "mom": 0.2074603175, "yoyMonth": 0, "v7": 0, "wow": 0, "yoyWeek": -1}, "cpa": {"v30": 0, "mom": -0.05356007018, "yoyMonth": 0, "v7": 0, "wow": 0, "yoyWeek": -1}, "cpm": {"v30": 0, "mom": -0.2068705582, "yoyMonth": 0, "v7": 0, "wow": 0, "yoyWeek": -1}, "cpc": {"v30": 0, "mom": -0.05674586949, "yoyMonth": 0, "v7": 0, "wow": 0, "yoyWeek": -1}}, "monthly": [{"Month": "Aug", "From": "2025-08-02 00:00:00", "To": "2025-08-31 00:00:00", "Booking": 373, "Appointment": 347, "NewPatient": 121, "Returning": 252, "LTV": 0.0, "NewShare": 0.3243967828, "RetShare": 0.6756032172, "Kunal": 361, "Divya": 12, "General": 123, "Cosmetic": 2, "Medical": 248, "AnsweredCall": 23, "AbandonedCall": 1, "TotalCall": 24, "GAdSpend": 745.82, "GImpr": 2672, "GClicks": 240, "GCalls": 41, "GCTR": 0.08982035928, "GCPM": 279.1242515, "GCPC": 3.107583333, "GCPA": 18.19073171, "MAdSpend": 0, "MImpr": 0, "MClicks": 0, "MConv": 0, "MCTR": 0, "MCPM": 0, "MCPC": 0, "MCPA": 0, "label": "Aug '25"}, {"Month": "Sep", "From": "2025-09-01 00:00:00", "To": "2025-09-30 00:00:00", "Booking": 574, "Appointment": 546, "NewPatient": 201, "Returning": 373, "LTV": 0.0, "NewShare": 0.350174216, "RetShare": 0.649825784, "Kunal": 570, "Divya": 4, "General": 203, "Cosmetic": 6, "Medical": 365, "AnsweredCall": 0, "AbandonedCall": 0, "TotalCall": 0, "GAdSpend": 1019.01, "GImpr": 1671, "GClicks": 160, "GCalls": 52, "GCTR": 0.09575104728, "GCPM": 609.8204668, "GCPC": 6.3688125, "GCPA": 19.59634615, "MAdSpend": 0, "MImpr": 0, "MClicks": 0, "MConv": 0, "MCTR": 0, "MCPM": 0, "MCPC": 0, "MCPA": 0, "label": "Sep '25"}, {"Month": "Oct", "From": "2025-10-01 00:00:00", "To": "2025-10-30 00:00:00", "Booking": 786, "Appointment": 814, "NewPatient": 240, "Returning": 546, "LTV": 0.0, "NewShare": 0.3053435115, "RetShare": 0.6946564885, "Kunal": 742, "Divya": 44, "General": 240, "Cosmetic": 9, "Medical": 537, "AnsweredCall": 0, "AbandonedCall": 0, "TotalCall": 0, "GAdSpend": 2050.15, "GImpr": 5589, "GClicks": 395, "GCalls": 59, "GCTR": 0.07067453927, "GCPM": 366.8187511, "GCPC": 5.190253165, "GCPA": 34.74830508, "MAdSpend": 0, "MImpr": 0, "MClicks": 0, "MConv": 0, "MCTR": 0, "MCPM": 0, "MCPC": 0, "MCPA": 0, "label": "Oct '25"}, {"Month": "Nov", "From": "2025-10-31 00:00:00", "To": "2025-11-29 00:00:00", "Booking": 643, "Appointment": 591, "NewPatient": 218, "Returning": 425, "LTV": 0.0, "NewShare": 0.3390357698, "RetShare": 0.6609642302, "Kunal": 519, "Divya": 124, "General": 218, "Cosmetic": 1, "Medical": 424, "AnsweredCall": 0, "AbandonedCall": 0, "TotalCall": 0, "GAdSpend": 1836.92, "GImpr": 6752, "GClicks": 454, "GCalls": 93.01, "GCTR": 0.06723933649, "GCPM": 272.0556872, "GCPC": 4.046079295, "GCPA": 19.74970433, "MAdSpend": 0, "MImpr": 0, "MClicks": 0, "MConv": 0, "MCTR": 0, "MCPM": 0, "MCPC": 0, "MCPA": 0, "label": "Nov '25"}, {"Month": "Dec", "From": "2025-11-30 00:00:00", "To": "2025-12-29 00:00:00", "Booking": 574, "Appointment": 623, "NewPatient": 153, "Returning": 421, "LTV": 0.0, "NewShare": 0.2665505226, "RetShare": 0.7334494774, "Kunal": 440, "Divya": 134, "General": 153, "Cosmetic": 1, "Medical": 420, "AnsweredCall": 0, "AbandonedCall": 0, "TotalCall": 0, "GAdSpend": 1418.46, "GImpr": 5301, "GClicks": 416, "GCalls": 63, "GCTR": 0.07847575929, "GCPM": 267.5834748, "GCPC": 3.409759615, "GCPA": 22.5152381, "MAdSpend": 0, "MImpr": 0, "MClicks": 0, "MConv": 0, "MCTR": 0, "MCPM": 0, "MCPC": 0, "MCPA": 0, "label": "Dec '25"}, {"Month": "Jan", "From": "2025-12-30 00:00:00", "To": "2026-01-28 00:00:00", "Booking": 729, "Appointment": 588, "NewPatient": 252, "Returning": 477, "LTV": 0.0, "NewShare": 0.3456790123, "RetShare": 0.6543209877, "Kunal": 553, "Divya": 176, "General": 252, "Cosmetic": 6, "Medical": 471, "AnsweredCall": 0, "AbandonedCall": 0, "TotalCall": 0, "GAdSpend": 1621, "GImpr": 7638, "GClicks": 504, "GCalls": 76.07, "GCTR": 0.06598586017, "GCPM": 212.228332, "GCPC": 3.216269841, "GCPA": 21.30932036, "MAdSpend": 0, "MImpr": 0, "MClicks": 0, "MConv": 0, "MCTR": 0, "MCPM": 0, "MCPC": 0, "MCPA": 0, "label": "Jan '26"}, {"Month": "Feb", "From": "2026-01-29 00:00:00", "To": "2026-02-27 00:00:00", "Booking": 873, "Appointment": 962, "NewPatient": 322, "Returning": 551, "LTV": 0.0, "NewShare": 0.3688430699, "RetShare": 0.6311569301, "Kunal": 680, "Divya": 193, "General": 327, "Cosmetic": 6, "Medical": 540, "AnsweredCall": 0, "AbandonedCall": 0, "TotalCall": 0, "GAdSpend": 1749.62, "GImpr": 7016, "GClicks": 484, "GCalls": 108.03, "GCTR": 0.06898517674, "GCPM": 249.3757127, "GCPC": 3.614917355, "GCPA": 16.19568638, "MAdSpend": 0, "MImpr": 0, "MClicks": 0, "MConv": 0, "MCTR": 0, "MCPM": 0, "MCPC": 0, "MCPA": 0, "label": "Feb '26"}, {"Month": "Mar", "From": "2026-02-28 00:00:00", "To": "2026-03-29 00:00:00", "Booking": 803, "Appointment": 784, "NewPatient": 236, "Returning": 567, "LTV": 0.0, "NewShare": 0.2938978829, "RetShare": 0.7061021171, "Kunal": 683, "Divya": 120, "General": 238, "Cosmetic": 7, "Medical": 558, "AnsweredCall": 0, "AbandonedCall": 1, "TotalCall": 1, "GAdSpend": 1363.22, "GImpr": 5618, "GClicks": 370, "GCalls": 89.97, "GCTR": 0.06585973656, "GCPM": 242.6521894, "GCPC": 3.684378378, "GCPA": 15.15193954, "MAdSpend": 0, "MImpr": 0, "MClicks": 0, "MConv": 0, "MCTR": 0, "MCPM": 0, "MCPC": 0, "MCPA": 0, "label": "Mar '26"}, {"Month": "Apr", "From": "2026-03-30 00:00:00", "To": "2026-04-28 00:00:00", "Booking": 950, "Appointment": 972, "NewPatient": 309, "Returning": 641, "LTV": 0.0, "NewShare": 0.3252631579, "RetShare": 0.6747368421, "Kunal": 762, "Divya": 188, "General": 312, "Cosmetic": 8, "Medical": 630, "AnsweredCall": 1, "AbandonedCall": 0, "TotalCall": 1, "GAdSpend": 605.92, "GImpr": 2972, "GClicks": 147, "GCalls": 14.5, "GCTR": 0.04946164199, "GCPM": 203.8761777, "GCPC": 4.121904762, "GCPA": 41.78758621, "MAdSpend": 0, "MImpr": 0, "MClicks": 0, "MConv": 0, "MCTR": 0, "MCPM": 0, "MCPC": 0, "MCPA": 0, "label": "Apr '26"}, {"Month": "May", "From": "2026-04-29 00:00:00", "To": "2026-05-28 00:00:00", "Booking": 834, "Appointment": 786, "NewPatient": 268, "Returning": 566, "LTV": 0.0, "NewShare": 0.3213429257, "RetShare": 0.6786570743, "Kunal": 580, "Divya": 254, "General": 268, "Cosmetic": 10, "Medical": 556, "AnsweredCall": 0, "AbandonedCall": 0, "TotalCall": 0, "GAdSpend": 0, "GImpr": 0, "GClicks": 0, "GCalls": 0, "GCTR": 0, "GCPM": 0, "GCPC": 0, "GCPA": 0, "MAdSpend": 0, "MImpr": 0, "MClicks": 0, "MConv": 0, "MCTR": 0, "MCPM": 0, "MCPC": 0, "MCPA": 0, "label": "May '26"}, {"Month": "Jun", "From": "2026-05-29 00:00:00", "To": "2026-06-27 00:00:00", "Booking": 861, "Appointment": 897, "NewPatient": 288, "Returning": 573, "LTV": 0.0, "NewShare": 0.3344947735, "RetShare": 0.6655052265, "Kunal": 700, "Divya": 161, "General": 288, "Cosmetic": 15, "Medical": 558, "AnsweredCall": 18, "AbandonedCall": 0, "TotalCall": 18, "GAdSpend": 0, "GImpr": 0, "GClicks": 0, "GCalls": 0, "GCTR": 0, "GCPM": 0, "GCPC": 0, "GCPA": 0, "MAdSpend": 115.13, "MImpr": 3227, "MClicks": 120, "MConv": 0, "MCTR": 0.03718624109, "MCPM": 35.67709947, "MCPC": 0.9594166667, "MCPA": 115.13, "label": "Jun '26"}, {"Month": "Jul", "From": "2026-06-28 00:00:00", "To": "2026-07-27 00:00:00", "Booking": 795, "Appointment": 744, "NewPatient": 244, "Returning": 551, "LTV": 0.0, "NewShare": 0.306918239, "RetShare": 0.693081761, "Kunal": 635, "Divya": 160, "General": 244, "Cosmetic": 14, "Medical": 537, "AnsweredCall": 437, "AbandonedCall": 23, "TotalCall": 460, "GAdSpend": 0, "GImpr": 0, "GClicks": 0, "GCalls": 0, "GCTR": 0, "GCPM": 0, "GCPC": 0, "GCPA": 0, "MAdSpend": 585.13, "MImpr": 26109, "MClicks": 205, "MConv": 8, "MCTR": 0.007851698648, "MCPM": 22.411046, "MCPC": 2.854292683, "MCPA": 73.14125, "label": "Jul '26"}], "weekly": [{"week": "W-8", "to": "02/16", "booking": 185, "appointment": 238, "newPatient": 83, "returning": 102, "label": "02/16"}, {"week": "W-9", "to": "02/23", "booking": 181, "appointment": 138, "newPatient": 61, "returning": 120, "label": "02/23"}, {"week": "W-10", "to": "03/02", "booking": 188, "appointment": 209, "newPatient": 56, "returning": 132, "label": "03/02"}, {"week": "W-11", "to": "03/09", "booking": 227, "appointment": 169, "newPatient": 57, "returning": 170, "label": "03/09"}, {"week": "W-12", "to": "03/16", "booking": 190, "appointment": 254, "newPatient": 51, "returning": 139, "label": "03/16"}, {"week": "W-13", "to": "03/23", "booking": 199, "appointment": 168, "newPatient": 62, "returning": 137, "label": "03/23"}, {"week": "W-14", "to": "03/30", "booking": 180, "appointment": 193, "newPatient": 64, "returning": 116, "label": "03/30"}, {"week": "W-15", "to": "04/06", "booking": 199, "appointment": 176, "newPatient": 56, "returning": 143, "label": "04/06"}, {"week": "W-16", "to": "04/13", "booking": 235, "appointment": 241, "newPatient": 81, "returning": 154, "label": "04/13"}, {"week": "W-17", "to": "04/20", "booking": 217, "appointment": 227, "newPatient": 75, "returning": 142, "label": "04/20"}, {"week": "W-18", "to": "04/27", "booking": 223, "appointment": 228, "newPatient": 75, "returning": 148, "label": "04/27"}, {"week": "W-19", "to": "05/04", "booking": 163, "appointment": 185, "newPatient": 46, "returning": 117, "label": "05/04"}, {"week": "W-20", "to": "05/11", "booking": 130, "appointment": 206, "newPatient": 39, "returning": 91, "label": "05/11"}, {"week": "W-21", "to": "05/18", "booking": 240, "appointment": 69, "newPatient": 76, "returning": 164, "label": "05/18"}, {"week": "W-22", "to": "05/25", "booking": 208, "appointment": 250, "newPatient": 74, "returning": 134, "label": "05/25"}, {"week": "W-23", "to": "06/01", "booking": 219, "appointment": 238, "newPatient": 77, "returning": 142, "label": "06/01"}, {"week": "W-24", "to": "06/08", "booking": 174, "appointment": 218, "newPatient": 64, "returning": 110, "label": "06/08"}, {"week": "W-25", "to": "06/15", "booking": 203, "appointment": 157, "newPatient": 64, "returning": 139, "label": "06/15"}, {"week": "W-26", "to": "06/22", "booking": 226, "appointment": 233, "newPatient": 73, "returning": 153, "label": "06/22"}, {"week": "W-27", "to": "06/29", "booking": 199, "appointment": 227, "newPatient": 62, "returning": 137, "label": "06/29"}, {"week": "W-28", "to": "07/06", "booking": 173, "appointment": 161, "newPatient": 43, "returning": 130, "label": "07/06"}, {"week": "W-29", "to": "07/13", "booking": 146, "appointment": 158, "newPatient": 49, "returning": 97, "label": "07/13"}, {"week": "W-30", "to": "07/20", "booking": 203, "appointment": 158, "newPatient": 70, "returning": 133, "label": "07/20"}, {"week": "W-31", "to": "07/27", "booking": 258, "appointment": 267, "newPatient": 76, "returning": 182, "label": "07/27"}]}};
+
+const COLORS = {
+  sapphire:'#2E58D8', sapphireSoft:'#c3d0f5', clay:'#e3805a', claySoft:'#f3c3ac',
+  ink:'#122349', slate:'#8b96b3', pos:'#1f8a5f', neg:'#c0453b', teal:'#2fa199'
+};
+
+function pct(v, digits=1){
+  if (v === null || v === undefined || isNaN(v)) return '–';
+  const s = (v*100).toFixed(digits);
+  return (v>0? '+':'') + s + '%';
+}
+function pctClass(v){ return v >= 0 ? 'pos' : 'neg'; }
+function fmtNum(v){ return Math.round(v).toLocaleString('en-US'); }
+function fmtCur(v, digits=2){ return '$' + Number(v).toLocaleString('en-US', {minimumFractionDigits:digits, maximumFractionDigits:digits}); }
+function fmtCur0(v){ return '$' + Math.round(v).toLocaleString('en-US'); }
+
+let charts = {};
+let currentLoc = 'consolidated';
+
+function destroyCharts(){
+  Object.values(charts).forEach(c => c && c.destroy());
+  charts = {};
+}
+
+function renderHeroStrip(loc){
+  const k = loc.kpis;
+  const items = [
+    {label:'Contacts (30d)', k:k.contacts},
+    {label:'Appointments (30d)', k:k.appointments},
+    {label:'New Patients (30d)', k:k.newPatient},
+    {label:'Returning (30d)', k:k.returning},
+  ];
+  document.getElementById('heroStrip').innerHTML = items.map(it => `
+    <div class="strip-item">
+      <div class="lbl">${it.label}</div>
+      <div class="val">${fmtNum(it.k.v30)}</div>
+      <div class="chg ${pctClass(it.k.mom)}">${pct(it.k.mom)} MoM</div>
+    </div>
+  `).join('');
+}
+
+function kpiCard(label, k, accent){
+  return `
+    <div class="kpi-card">
+      <svg class="facet-corner" viewBox="0 0 46 46"><polygon points="46,0 46,46 0,0" fill="${accent}" opacity="0.08"/></svg>
+      <div class="kpi-label">${label}</div>
+      <div class="kpi-value">${fmtNum(k.v30)}</div>
+      <div class="kpi-foot">
+        <span class="pill ${pctClass(k.mom)}">${pct(k.mom)}</span>
+        <span class="kpi-sub">vs prior month</span>
+      </div>
+      <div class="kpi-week"><span>Last 7 days</span><b>${fmtNum(k.v7)} &nbsp;(${pct(k.wow)} WoW)</b></div>
+    </div>`;
+}
+
+function renderKPIs(loc){
+  const k = loc.kpis;
+  document.getElementById('kpiRow').innerHTML =
+    kpiCard('Contacts', k.contacts, COLORS.sapphire) +
+    kpiCard('Appointments', k.appointments, COLORS.sapphire) +
+    kpiCard('New Patients', k.newPatient, COLORS.clay) +
+    kpiCard('Returning Patients', k.returning, COLORS.sapphire);
+}
+
+function renderMonthlyChart(loc){
+  const labels = loc.monthly.map(m => m.label);
+  const newP = loc.monthly.map(m => m.NewPatient);
+  const ret = loc.monthly.map(m => m.Returning);
+  const ctx = document.getElementById('chartMonthly').getContext('2d');
+  charts.monthly = new Chart(ctx, {
+    type:'line',
+    data:{ labels, datasets:[
+      { label:'Returning', data:ret, borderColor:COLORS.sapphire, backgroundColor:COLORS.sapphire+'33', fill:true, stack:'s', tension:0.35, borderWidth:2, pointRadius:0, pointHoverRadius:4 },
+      { label:'New Patients', data:newP, borderColor:COLORS.clay, backgroundColor:COLORS.clay+'55', fill:true, stack:'s', tension:0.35, borderWidth:2, pointRadius:0, pointHoverRadius:4 },
+    ]},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      interaction:{ mode:'index', intersect:false },
+      plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label: c => `${c.dataset.label}: ${fmtNum(c.parsed.y)}` } } },
+      scales:{
+        x:{ grid:{display:false}, ticks:{ font:{family:'IBM Plex Mono', size:11}, color:COLORS.slate } },
+        y:{ stacked:true, grid:{color:'#eef1f8'}, ticks:{ font:{family:'IBM Plex Mono', size:11}, color:COLORS.slate } }
+      }
+    }
+  });
+}
+
+function renderPatientMix(loc){
+  const ps = loc.patientShare;
+  document.getElementById('mixBig').textContent = (ps.new30*100).toFixed(0)+'%';
+  const ctx = document.getElementById('chartPatientMix').getContext('2d');
+  charts.mix = new Chart(ctx, {
+    type:'doughnut',
+    data:{ labels:['New Patients','Returning'], datasets:[{ data:[ps.new30, ps.ret30], backgroundColor:[COLORS.clay, COLORS.sapphire], borderWidth:0, hoverOffset:4 }] },
+    options:{
+      responsive:true, maintainAspectRatio:false, cutout:'72%',
+      plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label: c => `${c.label}: ${(c.parsed*100).toFixed(1)}%` } } }
+    }
+  });
+  document.getElementById('mixLegend').innerHTML = `
+    <div class="legend-chip"><span class="sw" style="background:${COLORS.clay}"></span>New — ${(ps.new30*100).toFixed(1)}% (30d) · ${(ps.new7*100).toFixed(1)}% (7d)</div>
+    <div class="legend-chip"><span class="sw" style="background:${COLORS.sapphire}"></span>Returning — ${(ps.ret30*100).toFixed(1)}% (30d) · ${(ps.ret7*100).toFixed(1)}% (7d)</div>
+  `;
+}
+
+function renderWeeklyChart(loc){
+  const wk = loc.weekly.slice(-12);
+  const labels = wk.map(w => w.label);
+  const appt = wk.map(w => w.appointment);
+  const ctx = document.getElementById('chartWeekly').getContext('2d');
+  charts.weekly = new Chart(ctx, {
+    type:'bar',
+    data:{ labels, datasets:[{ label:'Appointments', data:appt, backgroundColor:COLORS.sapphire, borderRadius:5, maxBarThickness:34 }] },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label: c => `Appointments: ${fmtNum(c.parsed.y)}` } } },
+      scales:{
+        x:{ grid:{display:false}, ticks:{ font:{family:'IBM Plex Mono', size:10.5}, color:COLORS.slate } },
+        y:{ grid:{color:'#eef1f8'}, ticks:{ font:{family:'IBM Plex Mono', size:11}, color:COLORS.slate } }
+      }
+    }
+  });
+}
+
+function renderCalls(loc){
+  const c = loc.calls;
+  const total = c.total.v30, answered = c.answered.v30, abandoned = c.abandoned.v30;
+  const rate = total > 0 ? (answered/total*100) : 0;
+  document.getElementById('callAnswerRate').textContent = rate.toFixed(1)+'%';
+  document.getElementById('callTotal').textContent = fmtNum(total);
+  document.getElementById('callAnsweredNum').textContent = fmtNum(answered) + ' (' + pct(c.answered.mom) + ')';
+  document.getElementById('callAbandonedNum').textContent = fmtNum(abandoned) + ' (' + pct(c.abandoned.mom) + ')';
+  document.getElementById('callAnsweredBar').style.width = (total>0 ? (answered/total*100) : 0) + '%';
+  document.getElementById('callAbandonedBar').style.width = (total>0 ? (abandoned/total*100) : 0) + '%';
+  document.getElementById('callNote').textContent = `Last 7 days: ${fmtNum(c.total.v7)} calls (${pct(c.total.wow)} WoW)`;
+}
+
+function renderApptType(loc){
+  const t = loc.appointmentType;
+  const vals = [t.general.v30, t.cosmetic.v30, t.medical.v30];
+  const ctx = document.getElementById('chartApptType').getContext('2d');
+  charts.apptType = new Chart(ctx, {
+    type:'doughnut',
+    data:{ labels:['General','Cosmetic','Medical'], datasets:[{ data:vals, backgroundColor:[COLORS.sapphire, COLORS.clay, '#7d8bc7'], borderWidth:0, hoverOffset:4 }] },
+    options:{ responsive:true, maintainAspectRatio:false, cutout:'62%', plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label: c => `${c.label}: ${fmtNum(c.parsed)}` } } } }
+  });
+  const tot = vals.reduce((a,b)=>a+b,0) || 1;
+  const items = [['General',COLORS.sapphire,t.general],['Cosmetic',COLORS.clay,t.cosmetic],['Medical','#7d8bc7',t.medical]];
+  document.getElementById('apptLegend').innerHTML = items.map(([label,color,k]) =>
+    `<div class="legend-chip"><span class="sw" style="background:${color}"></span>${label} — ${fmtNum(k.v30)} (${(k.v30/tot*100).toFixed(0)}%)</div>`
+  ).join('');
+}
+
+function renderProviders(loc){
+  const p = loc.providers;
+  const ctx = document.getElementById('chartProviders').getContext('2d');
+  charts.providers = new Chart(ctx, {
+    type:'bar',
+    data:{
+      labels:['Dr. Kunal Angra','Dr. Divya Angra'],
+      datasets:[{ data:[p.kunal.v30, p.divya.v30], backgroundColor:[COLORS.sapphire, COLORS.clay], borderRadius:6, maxBarThickness:46 }]
+    },
+    options:{
+      indexAxis:'y', responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label: c => `${fmtNum(c.parsed.x)} patients (${pct(c.dataIndex===0?p.kunal.mom:p.divya.mom)} MoM)` } } },
+      scales:{
+        x:{ grid:{color:'#eef1f8'}, ticks:{ font:{family:'IBM Plex Mono', size:11}, color:COLORS.slate } },
+        y:{ grid:{display:false}, ticks:{ font:{family:'Inter', size:12.5, weight:600}, color:COLORS.ink } }
+      }
+    }
+  });
+}
+
+function adsMetricBlock(k){
+  return [
+    ['Ad Spend', fmtCur0(k.adspend.v30), k.adspend.mom],
+    ['Conversions', fmtNum(k.conversions.v30), k.conversions.mom],
+    ['CPA', fmtCur(k.cpa.v30), k.cpa.mom],
+    ['CPC', fmtCur(k.cpc.v30), k.cpc.mom],
+  ];
+}
+
+function renderAdsMetrics(loc){
+  const hasMeta = loc.metaAds.adspend.v30 > 0;
+  const hasGoogle = loc.googleAds.adspend.v30 > 0;
+
+  document.getElementById('metaMetrics').innerHTML = hasMeta ? adsMetricBlock(loc.metaAds).map(([l,v,mom]) => `
+    <div class="ads-metric"><div class="v">${v}</div><div class="l">${l} · ${pct(mom)} mom</div></div>
+  `).join('') : '<div class="ads-empty">No Meta Ads spend recorded for this location in the last 30 days.</div>';
+
+  document.getElementById('googleMetrics').innerHTML = hasGoogle ? adsMetricBlock(loc.googleAds).map(([l,v,mom]) => `
+    <div class="ads-metric"><div class="v">${v}</div><div class="l">${l} · ${pct(mom)} mom</div></div>
+  `).join('') : '<div class="ads-empty">No Google Ads spend recorded for this location in the last 30 days.</div>';
+}
+
+function renderAdsChart(loc){
+  const ctx = document.getElementById('chartAds').getContext('2d');
+  charts.ads = new Chart(ctx, {
+    type:'bar',
+    data:{
+      labels:['Ad Spend ($)','CPA ($)','Conversions'],
+      datasets:[
+        { label:'Meta Ads', data:[loc.metaAds.adspend.v30, loc.metaAds.cpa.v30, loc.metaAds.conversions.v30], backgroundColor:COLORS.sapphire, borderRadius:5, maxBarThickness:40 },
+        { label:'Google Ads', data:[loc.googleAds.adspend.v30, loc.googleAds.cpa.v30, loc.googleAds.conversions.v30], backgroundColor:COLORS.clay, borderRadius:5, maxBarThickness:40 },
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ position:'top', align:'end', labels:{ boxWidth:10, boxHeight:10, font:{family:'Inter', size:12} } } },
+      scales:{
+        x:{ grid:{display:false}, ticks:{ font:{family:'IBM Plex Mono', size:11}, color:COLORS.slate } },
+        y:{ grid:{color:'#eef1f8'}, ticks:{ font:{family:'IBM Plex Mono', size:11}, color:COLORS.slate } }
+      }
+    }
+  });
+}
+
+function render(locKey){
+  currentLoc = locKey;
+  const loc = DATA[locKey];
+  destroyCharts();
+  renderHeroStrip(loc);
+  renderKPIs(loc);
+  renderMonthlyChart(loc);
+  renderPatientMix(loc);
+  renderWeeklyChart(loc);
+  renderCalls(loc);
+  renderApptType(loc);
+  renderProviders(loc);
+  renderAdsMetrics(loc);
+  renderAdsChart(loc);
+}
+
+document.getElementById('tabs').addEventListener('click', (e) => {
+  const btn = e.target.closest('.tab-btn');
+  if (!btn) return;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  render(btn.dataset.loc);
+});
+
+render('consolidated');
+</script>
+</body>
+</html>
